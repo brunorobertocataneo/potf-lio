@@ -16,6 +16,7 @@ typeWrite(subtitle) // chamar a funcao
 
 document.addEventListener('DOMContentLoaded', () => {
 
+	document.addEventListener('DOMContentLoaded', () => {
 	const galleryContainer = document.querySelector('.gallery-container');
 	const galleryControlsContainer = document.querySelector('.gallery-controls');
 	const galleryControls = ['Anterior', 'Próximo'];
@@ -34,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			this.carouselContainer = container;
 			this.carouselControls = controls;
 			this.carouselArray = [...items];
-			this.updateGallery(); // Inicializa classes
-			this.setClickEvents(); // Inicializa cliques
+			this.updateGallery();
+			this.setClickEvents();
 		}
 
 		updateGallery() {
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				this.carouselArray.push(this.carouselArray.shift());
 			}
 			this.updateGallery();
+			this.setClickEvents(); // Reaplica eventos após movimentar
 		}
 
 		setControls() {
@@ -77,16 +79,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 
 		setClickEvents() {
-			// Remove todos os listeners anteriores, mas sem clonar os itens
-			this.carouselArray.forEach((item, index) => {
-				item.replaceWith(item.cloneNode(true)); // Recria o item para evitar problemas com eventos duplicados
-			});
-			this.carouselArray = [...document.querySelectorAll('.gallery-item')]; // Reatribui a referência
+			this.carouselArray = [...document.querySelectorAll('.gallery-item')];
 
-			// Associa os eventos aos itens individuais
+			this.carouselArray.forEach((item, index) => {
+				item.replaceWith(item.cloneNode(true)); // Remove antigos listeners
+			});
+			this.carouselArray = [...document.querySelectorAll('.gallery-item')];
+
 			this.carouselArray.forEach((item, index) => {
 				item.addEventListener('click', () => {
-					// Abre o link correspondente ao item
 					const link = galleryLinks[index + 1];
 					if (link) {
 						window.open(link, '_blank');
@@ -99,8 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryControls);
 	exampleCarousel.setControls();
 	exampleCarousel.useControls();
-
 });
+
 
 
 // navbar
