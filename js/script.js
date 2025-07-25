@@ -1,28 +1,28 @@
-//typing efect
-
-
-const subtitle = document.querySelector('p') // Cria uma variavel 
-
-function typeWrite(element) { // criando a funcao typewhrite piuchando a variavel
-	const textArray = element.innerHTML.split(''); // mudara o que esta escrito na variavel, o splits faz separacao de textos, Bruno.split separa as letras
-	element.innerHTML = ''; //comeco da frase, pega o elemento html, fazendo fucar vazio no comeco
-	textArray.forEach((letter, i) => { //chamando a variavel e dando atributo a ela um valor infinito, o parenteses com a flecha vira uma funcao
-		setTimeout (() => element.innerHTML += letter, i * 300); // settimeout da um tempo para o atributo ser executavel, o element tem a escrita mudada com um tempo, o += faz com que acresente as letras com o decorrer da frase, mantendo a letra anterior, o espacamento vazio tem um tempo de 300 milisegundos
-	});
-
-}
-
-typeWrite(subtitle) // chamar a funcao 
-
 document.addEventListener('DOMContentLoaded', () => {
 
-	document.addEventListener('DOMContentLoaded', () => {
+	// Efeito de Digitação
+	function typeWrite(element) {
+		const textArray = element.innerHTML.split('');
+		element.innerHTML = '';
+
+		textArray.forEach((letter, i) => {
+			setTimeout(() => {
+				element.innerHTML += letter;
+			}, i * 300);
+		});
+	}
+
+	const subtitle = document.querySelector('p');
+	if (subtitle) {
+		typeWrite(subtitle);
+	}
+
+	// Carrossel
 	const galleryContainer = document.querySelector('.gallery-container');
 	const galleryControlsContainer = document.querySelector('.gallery-controls');
 	const galleryControls = ['Anterior', 'Próximo'];
 	const galleryItems = document.querySelectorAll('.gallery-item');
 
-	// Links dos projetos
 	const galleryLinks = {
 		1: 'https://brunorobertocataneo.github.io/olhar_cultural/',
 		2: 'https://brunorobertocataneo.github.io/Calculadora/',
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				this.carouselArray.push(this.carouselArray.shift());
 			}
 			this.updateGallery();
-			this.setClickEvents(); // Reaplica eventos após movimentar
+			this.setClickEvents();
 		}
 
 		setControls() {
@@ -81,9 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		setClickEvents() {
 			this.carouselArray = [...document.querySelectorAll('.gallery-item')];
 
-			this.carouselArray.forEach((item, index) => {
-				item.replaceWith(item.cloneNode(true)); // Remove antigos listeners
+			this.carouselArray.forEach(item => {
+				item.replaceWith(item.cloneNode(true)); // remove antigos listeners
 			});
+
 			this.carouselArray = [...document.querySelectorAll('.gallery-item')];
 
 			this.carouselArray.forEach((item, index) => {
@@ -97,21 +98,23 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryControls);
-	exampleCarousel.setControls();
-	exampleCarousel.useControls();
-});
+	if (galleryContainer && galleryItems.length > 0) {
+		const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryControls);
+		exampleCarousel.setControls();
+		exampleCarousel.useControls();
+	}
 
+	// Scroll suave para links da navbar
+	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+		anchor.addEventListener('click', function (e) {
+			e.preventDefault();
+			const target = document.querySelector(this.getAttribute('href'));
+			if (target) {
+				target.scrollIntoView({
+					behavior: 'smooth'
+				});
+			}
+		});
+	});
 
-
-// navbar
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
 });
