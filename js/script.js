@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		1: 'https://brunorobertocataneo.github.io/olhar_cultural/',
 		2: 'https://brunorobertocataneo.github.io/Calculadora/',
 		3: 'https://brunorobertocataneo.github.io/programming_memory_game/'
+		4: 'https://brunorobertocataneo.github.io/I.A-NA-EDUCACAO/'
 	};
 
 	class Carousel {
